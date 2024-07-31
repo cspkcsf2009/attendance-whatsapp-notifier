@@ -1,5 +1,6 @@
 // src/components/AttendanceTable.js
 import { useState } from 'react';
+import WhatsAppIcon from '../assets/Digital_Glyph_Green.svg';
 
 const initialNames = [
     "Abinesh N",
@@ -33,7 +34,9 @@ const initialNames = [
     "Vengatesh S",
     "Yowan M"
 ];
+
 const subjects = ['Entire Day', 'Tamil', 'English', 'PROGRAMMING in C++', 'Practical - PROGRAMMING in C++', 'Introduction to Data Science', 'Practical - PHP PROGRAMMING', 'Environmental Studies'];
+
 const classes = ['2nd B.Sc. Computer Science', '3rd B.Sc. Computer Science', '1st B.Sc. Computer Science']; // Example classes
 
 // Function to get current date and time in a readable format with AM/PM
@@ -198,6 +201,7 @@ const AttendanceTable = () => {
                         className={`w-full px-5 py-3 font-semibold rounded-lg shadow-lg transition-transform transform duration-300 ease-in-out ${isSubmitClicked ? 'bg-green-700 text-white hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-300 hover:scale-105' : 'bg-green-400 text-gray-300 cursor-not-allowed'}`}
                         disabled={!isSubmitClicked || (result.present.length === 0 && result.absent.length === 0)}
                     >
+                        <img src={WhatsAppIcon} alt="WhatsApp Icon" className="w-6 h-6 inline-block mr-2" />
                         Send to WhatsApp
                     </button>
                     <div className={`absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-max p-2 rounded-lg bg-black text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none ${!isSubmitClicked ? 'group-hover:opacity-100' : ''}`}>
