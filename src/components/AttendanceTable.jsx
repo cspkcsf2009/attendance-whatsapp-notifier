@@ -105,7 +105,7 @@ const AttendanceTable = () => {
     return (
         <div className="p-4 sm:p-6 md:p-8 lg:p-12 max-w-full mx-auto bg-white rounded-lg shadow-lg border border-gray-200">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-white mb-6 sm:mb-8 bg-gray-800 px-4 sm:px-6 md:px-8 py-4 sm:py-6 md:py-8">
-                Attendance Whatsapp Notifier [ 2024-25 ] - PKC
+                Attendance Whatsapp Notifier <br /><br /> [ 2024-25 ] - PKC
             </h1>
 
             <div className="mb-4 sm:mb-6">
