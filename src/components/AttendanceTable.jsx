@@ -80,7 +80,7 @@ const AttendanceTable = () => {
         const absent = result.absent;
 
         // Generate the message
-        const message = `--- 📅  *Attendance Report*  📅 ---\n\n` +
+        const message = `---  *Attendance Report*  ---\n\n` +
             `*Date and Time:* ${getFormattedDateTime()}\n\n` +
             `*Class:* ${selectedClass}\n\n` +
             `*Hours:* ${selectedSubject}\n\n` +
@@ -230,7 +230,7 @@ const AttendanceTable = () => {
                             )}
                             <button
                                 onClick={() => setShowPresent(!showPresent)}
-                                className={`mt-4 w-full px-4 py-2 ${showPresent ? 'bg-gray-300' : 'bg-blue-500'} text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition-colors duration-300`}
+                                className={`mt-4 w-full px-4 py-2 ${showPresent ? 'bg-blue-400' : 'bg-blue-500'} text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition-colors duration-300`}
                             >
                                 {showPresent ? 'Hide Present List' : 'View Present List'}
                             </button>
@@ -252,7 +252,7 @@ const AttendanceTable = () => {
                             }
                             <button
                                 onClick={() => setShowAbsent(!showAbsent)}
-                                className={`mt-4 w-full px-4 py-2 ${showAbsent ? 'bg-gray-300' : 'bg-red-500'} text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition-colors duration-300`}
+                                className={`mt-4 w-full px-4 py-2 ${showAbsent ? 'bg-red-400' : 'bg-red-500'} text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition-colors duration-300`}
                             >
                                 {showAbsent ? 'Hide Absent List' : 'View Absent List'}
                             </button>
