@@ -45,11 +45,10 @@ const Dashboard = () => {
 
     const handleSubmit = useCallback(() => {
         const present = Object.entries(attendance)
-            .filter(([_, status]) => status === 'present')
+            .filter(([, status]) => status === 'present')
             .map(([name]) => name);
-
         const absent = Object.entries(attendance)
-            .filter(([_, status]) => status === 'absent')
+            .filter(([, status]) => status === 'absent')
             .map(([name]) => name);
 
         setResult({ present, absent });
@@ -109,7 +108,7 @@ const Dashboard = () => {
                     <p className="text-sm sm:text-lg mt-1">[ 2024-25 ] - PKC</p>
                 </header>
                 <main className="p-4 sm:p-6 w-full">
-                    <div className="flex flex-col sm:flex-row justify-between gap-4 mb-6 w-full p-6 rounded-lg border-2">
+                    <div className="flex flex-col sm:flex-row justify-between gap-4 mb-4 w-full p-6 rounded-lg border-2">
                         <div className="flex flex-col sm:flex-row gap-4 w-full">
                             <div className="flex-1">
                                 <Selector

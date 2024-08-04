@@ -6,9 +6,9 @@ const AttendanceRow = ({ index, name, status, handleStatusChange }) => (
     >
         <td className="px-2 py-2 sm:px-4 sm:py-3 text-xs sm:text-base text-gray-900 font-medium text-center">{index + 1}</td>
         <td className="px-2 py-2 sm:px-4 sm:py-3 text-xs sm:text-base text-gray-900 font-medium text-center">{name}</td>
-        <td className="px-2 py-2 sm:px-4 sm:py-3 text-xs sm:text-base text-gray-600">
-            <div className="flex flex-col sm:flex-row sm:justify-center sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
-                <label className="inline-flex items-center space-x-2">
+        <td className="px-2 py-2 sm:px-4 sm:py-3 text-xs sm:text-base text-gray-900">
+            <div className="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-4">
+                <label className="flex items-center justify-center space-x-2 w-full sm:w-auto">
                     <input
                         type="radio"
                         name={name}
@@ -19,7 +19,7 @@ const AttendanceRow = ({ index, name, status, handleStatusChange }) => (
                     />
                     <span className="text-gray-700 font-medium">Present</span>
                 </label>
-                <label className="inline-flex items-center space-x-2">
+                <label className="flex items-center justify-center space-x-2 w-full sm:w-auto">
                     <input
                         type="radio"
                         name={name}
