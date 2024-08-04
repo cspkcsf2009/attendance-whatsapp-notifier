@@ -21,8 +21,6 @@ const DocxButton = ({ result, selectedClass, selectedSubject }) => {
         setError(null);
 
         try {
-            // console.log("Result:", result); // Log the result to understand its structure
-
             const presentCount = result.present.length;
             const absentCount = result.absent.length;
             const counts = { presentCount, absentCount };
@@ -44,7 +42,7 @@ const DocxButton = ({ result, selectedClass, selectedSubject }) => {
     };
 
     return (
-        <div className="text-center">
+        <div className="w-full mb-6 text-center">
             <button
                 onClick={handleDownload}
                 className="w-full px-4 py-2 bg-purple-500 text-white font-semibold rounded-lg shadow-md hover:bg-purple-600 transition-colors duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"

@@ -1,9 +1,10 @@
-import { useState, useMemo, useCallback } from 'react';
-import Selector from './Selector';
-import AttendanceRow from './AttendanceRow';
+import { useState, useCallback } from 'react';
+import ClassAndSubjectSelector from './ClassAndSubjectSelector';
+import AttendanceTable from './AttendanceTable'; // Import the modified AttendanceTable component
 import SummarySection from './SummarySection';
 import WhatsAppButton from './WhatsAppButton';
 import DocxButton from './DocxButton';
+import MarkAllButtons from './MarkAllButtons'; // Import the new component
 
 const initialNames = [
     "Abinesh N", "Akash V", "Ashwin Gandhi A", "Booja R", "Hari Krishna B",
@@ -88,52 +89,52 @@ const Dashboard = () => {
         }
     }, [result, selectedClass, selectedSubject]);
 
-    const memoizedAttendanceRows = useMemo(() => (
-        initialNames.map((name, index) => (
-            <AttendanceRow
-                key={name}
-                index={index}
-                name={name}
-                status={attendance[name]}
-                handleStatusChange={handleStatusChange}
-            />
-        ))
-    ), [attendance, handleStatusChange]);
+    const handleMarkAllPresent = () => {
+        setAttendance((prevAttendance) => {
+            const newAttendance = { ...prevAttendance };
+            initialNames.forEach(name => {
+                newAttendance[name] = 'present';
+            });
+            return newAttendance;
+        });
+    };
+
+    const handleMarkAllAbsent = () => {
+        setAttendance((prevAttendance) => {
+            const newAttendance = { ...prevAttendance };
+            initialNames.forEach(name => {
+                newAttendance[name] = 'absent';
+            });
+            return newAttendance;
+        });
+    };
 
     return (
         <div className="p-4 sm:p-6 bg-gray-50 min-h-screen">
             <div className="max-w-5xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
                 <header className="bg-blue-700 text-white text-center py-4">
-                    <h1 className="text-2xl sm:text-3xl font-bold">Attendance Notifier Via Whatsapp</h1>
+                    <h1 className="text-2xl sm:text-3xl font-bold">Attendance Notifier</h1>
+                    <h3 className="text-xl sm:text-2xl font-bold">Whatsapp</h3>
                     <p className="text-sm sm:text-lg mt-1">[ 2024-25 ] - PKC</p>
                 </header>
                 <main className="p-4 sm:p-6 w-full">
-                    <div className="flex flex-col sm:flex-row justify-between gap-4 mb-4 w-full p-6 rounded-lg border-2">
-                        <div className="flex flex-col sm:flex-row gap-4 w-full">
-                            <div className="flex-1">
-                                <Selector
-                                    selectedClass={selectedClass}
-                                    setSelectedClass={setSelectedClass}
-                                    classes={classes}
-                                    selectedSubject={selectedSubject}
-                                    setSelectedSubject={setSelectedSubject}
-                                    subjects={subjects}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <table className="w-full divide-y divide-gray-300 mb-6 bg-white shadow-sm rounded-lg">
-                        <thead className="bg-gray-200 text-gray-700">
-                            <tr>
-                                <th className="px-2 py-1 sm:px-4 sm:py-2 text-center text-xs sm:text-lg font-medium">No.</th>
-                                <th className="px-2 py-1 sm:px-4 sm:py-2 text-center text-xs sm:text-lg font-medium">Name</th>
-                                <th className="px-2 py-1 sm:px-4 sm:py-2 text-center text-xs sm:text-lg font-medium">Attendance</th>
-                            </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
-                            {memoizedAttendanceRows}
-                        </tbody>
-                    </table>
+                    <ClassAndSubjectSelector
+                        selectedClass={selectedClass}
+                        setSelectedClass={setSelectedClass}
+                        classes={classes}
+                        selectedSubject={selectedSubject}
+                        setSelectedSubject={setSelectedSubject}
+                        subjects={subjects}
+                    />
+                    <MarkAllButtons
+                        handleMarkAllPresent={handleMarkAllPresent}
+                        handleMarkAllAbsent={handleMarkAllAbsent}
+                    />
+                    <AttendanceTable
+                        initialNames={initialNames}
+                        attendance={attendance}
+                        handleStatusChange={handleStatusChange}
+                    />
                     <div className="flex flex-col sm:flex-row gap-4 w-full mb-6">
                         <button
                             onClick={handleSubmit}
@@ -150,13 +151,11 @@ const Dashboard = () => {
                             />
                         </div>
                     </div>
-                    <div className="w-full mb-6">
-                        <DocxButton
-                            result={result}
-                            selectedClass={selectedClass}
-                            selectedSubject={selectedSubject}
-                        />
-                    </div>
+                    <DocxButton
+                        result={result}
+                        selectedClass={selectedClass}
+                        selectedSubject={selectedSubject}
+                    />
                 </main>
                 <footer className="bg-gray-100 text-gray-600 text-center py-6">
                     <SummarySection
