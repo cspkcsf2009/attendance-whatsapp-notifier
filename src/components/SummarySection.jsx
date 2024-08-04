@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 const SummarySection = ({ result, showPresent, setShowPresent, showAbsent, setShowAbsent }) => (
     <div className=" sm:mt-4 space-y-6">
-        <div className="flex flex-col sm:flex-row sm:space-x-4">
+        <div className="flex flex-col sm:flex-row sm:space-x-4 gap-4">
             <div className="bg-blue-50 border border-blue-200 p-4 sm:p-6 rounded-lg shadow-sm w-full sm:w-1/2">
                 <h3 className="text-base sm:text-lg font-semibold text-blue-800 mb-4">
                     Total Present Students: {result.present.length}

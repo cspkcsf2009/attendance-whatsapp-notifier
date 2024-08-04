@@ -117,7 +117,7 @@ const Dashboard = () => {
                     <h3 className="text-xl sm:text-2xl font-bold">Whatsapp</h3>
                     <p className="text-sm sm:text-lg mt-1">[ 2024-25 ] - PKC</p>
                 </header>
-                <main className="p-4 sm:p-6 w-full">
+                <main className="px-4 pt-4 pb-0 sm:px-6 sm:pt-6 sm:pb-0 w-full">
                     <ClassAndSubjectSelector
                         selectedClass={selectedClass}
                         setSelectedClass={setSelectedClass}
@@ -157,7 +157,7 @@ const Dashboard = () => {
                         selectedSubject={selectedSubject}
                     />
                 </main>
-                <footer className="bg-gray-100 text-gray-600 text-center py-6">
+                <footer className=" text-center px-4 pb-6">
                     <SummarySection
                         result={result}
                         showPresent={showPresent}
