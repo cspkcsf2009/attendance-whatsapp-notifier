@@ -7,12 +7,7 @@ import DocxButton from './DocxButton';
 import MarkAllButtons from './MarkAllButtons'; // Import the new component
 
 const initialNames = [
-    "Abinesh N", "Akash V", "Ashwin Gandhi A", "Booja R", "Hari Krishna B",
-    "Jaya Prasanna E", "Jaya Ram S.N", "Jobin M.S", "Kanishka P.S", "Kathirvel M",
-    "Krishna Kumar S", "Maha Nithra R", "Nagalingam I", "Naveen Raj S.U", "Nisha S",
-    "Pavin P.T", "Pavithra M.V", "Pratheeban S", "Sakthi Abirame M", "Sakthi Pon Rani R",
-    "Sakthi Suthan V", "Samuvel A", "Saran S", "Segi S", "Senegadharshini K",
-    "Sree Devi M", "Sri Varun S", "Sujith Lalaso Patil", "Vengatesh S", "Yowan M"
+    "Abinesh N", "Akash V", "Ashwin Gandhi A", "Booja R", "Hari Krishna B", "Jaya Prasanna E", "Jaya Ram S.N", "Jobin M.S", "Kanishka P.S", "Kathirvel M", "Krishna Kumar S", "Maha Nithra R", "Nagalingam I", "Naveen Raj S.U", "Nisha S", "Pavin P.T", "Pavithra M.V", "Pratheeban S", "Sakthi Abirame M", "Sakthi Pon Rani R", "Sakthi Suthan V", "Samuvel A", "Saran S", "Segi S", "Senegadharshini K", "Sree Devi M", "Sri Varun S", "Sujith Lalaso Patil", "Vengatesh S", "Yowan M"
 ];
 
 const subjects = ['Entire Day', 'Tamil', 'English', 'PROGRAMMING in C++', 'Practical - PROGRAMMING in C++', 'Introduction to Data Science', 'Practical - PHP PROGRAMMING', 'Environmental Studies', '30 Days FSD B18 Novitech - 31.07.2024'];
@@ -26,7 +21,7 @@ const getFormattedDateTime = () => {
     return `${date.toLocaleDateString(undefined, dateOptions)} at ${date.toLocaleTimeString(undefined, timeOptions)}`;
 };
 
-const Dashboard = () => {
+const Home = () => {
     const [selectedClass, setSelectedClass] = useState(classes[0]);
     const [selectedSubject, setSelectedSubject] = useState(subjects[0]);
     const [attendance, setAttendance] = useState(
@@ -45,20 +40,44 @@ const Dashboard = () => {
     }, []);
 
     const handleSubmit = useCallback(() => {
-        const present = Object.entries(attendance)
-            .filter(([, status]) => status === 'present')
-            .map(([name]) => name);
-        const absent = Object.entries(attendance)
-            .filter(([, status]) => status === 'absent')
-            .map(([name]) => name);
+        // Capture the original order of names based on the keys in the attendance object
+        const originalOrder = Object.keys(attendance);
 
-        setResult({ present, absent });
+        // Create a map to store the index of each name in the originalOrder array
+        const indexMap = originalOrder.reduce((map, name, index) => {
+            map[name] = index + 1; // Adding 1 to make indices start from 1
+            return map;
+        }, {});
+
+        // Create arrays for present and absent with the correct index and rollNo
+        const presentWithIndex = originalOrder
+            .filter(name => attendance[name] === 'present')
+            .map(name => ({ name, index: indexMap[name], rollNo: indexMap[name].toString(), attendanceStatus: 'present' }));
+        const absentWithIndex = originalOrder
+            .filter(name => attendance[name] === 'absent')
+            .map(name => ({ name, index: indexMap[name], rollNo: indexMap[name].toString(), attendanceStatus: 'absent' }));
+
+        // Combine present and absent arrays
+        const combinedWithIndex = [...presentWithIndex, ...absentWithIndex];
+
+        // Sort combined array by index
+        const sorted = combinedWithIndex.sort((a, b) => a.index - b.index);
+
+        // Set result with sorted names and handle empty arrays
+        setResult({
+            present: sorted.filter(item => attendance[item.name] === 'present') || [],
+            absent: sorted.filter(item => attendance[item.name] === 'absent') || [],
+        });
         setIsSubmitClicked(true);
+
+        // Log the final combined and sorted array
+        // console.log('Sorted Combined Names with Index:', sorted);
     }, [attendance]);
 
     const handleSendWhatsApp = useCallback(() => {
         try {
             const { present, absent } = result;
+            // console.log('Result:', result);
 
             // Construct the message with enhanced formatting
             const message = `---  *Attendance Report*  ---\n\n` +
@@ -69,7 +88,7 @@ const Dashboard = () => {
                 `- Total Present: ${present.length}\n` +
                 `- Total Absent: ${absent.length}\n\n` +
                 `*--- Absentees List (${absent.length}) ---*\n` +
-                `${absent.length > 0 ? absent.map((name, index) => `${index + 1}. ${name}`).join('\n') : 'No students absent.'}`;
+                `${absent.length > 0 ? absent.map((item, index) => `${index + 1}. ${item.name} (Index: ${item.index})`).join('\n') : 'No students absent.'}`;
 
             // Encode the message for URL
             const encodedMessage = encodeURIComponent(message);
@@ -83,7 +102,7 @@ const Dashboard = () => {
             // Optionally provide user feedback
             console.log('Attendance report sent to WhatsApp.');
         } catch (error) {
-            // Handle errors
+            // Handle errors and provide user feedback
             console.error('Failed to send attendance report:', error);
             alert('Failed to send the attendance report. Please try again.');
         }
@@ -171,4 +190,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default Home;

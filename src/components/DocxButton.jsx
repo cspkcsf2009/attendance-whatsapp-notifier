@@ -25,12 +25,10 @@ const DocxButton = ({ result, selectedClass, selectedSubject }) => {
             const absentCount = result.absent.length;
             const counts = { presentCount, absentCount };
 
-            const newDataWithStatus = [
-                ...result.present.map(name => [name, 'Present']),
-                ...result.absent.map(name => [name, 'Absent']),
-            ];
+            const allStudents = [...result.present, ...result.absent];
 
-            const blob = await generateDocx(newDataWithStatus, selectedClass, selectedSubject, date, counts);
+            const blob = await generateDocx(allStudents, selectedClass, selectedSubject, date, counts);
+            // console.log("All Students", allStudents)
             const fileName = `${selectedSubject}_${date}.docx`;
             saveAs(blob, fileName);
         } catch (err) {
@@ -57,8 +55,22 @@ const DocxButton = ({ result, selectedClass, selectedSubject }) => {
 
 DocxButton.propTypes = {
     result: PropTypes.shape({
-        present: PropTypes.arrayOf(PropTypes.string).isRequired,
-        absent: PropTypes.arrayOf(PropTypes.string).isRequired,
+        present: PropTypes.arrayOf(
+            PropTypes.shape({
+                name: PropTypes.string.isRequired,
+                index: PropTypes.number.isRequired,
+                rollNo: PropTypes.string.isRequired,
+                attendanceStatus: PropTypes.string.isRequired,
+            })
+        ).isRequired,
+        absent: PropTypes.arrayOf(
+            PropTypes.shape({
+                name: PropTypes.string.isRequired,
+                index: PropTypes.number.isRequired,
+                rollNo: PropTypes.string.isRequired,
+                attendanceStatus: PropTypes.string.isRequired,
+            })
+        ).isRequired,
     }).isRequired,
     selectedClass: PropTypes.string.isRequired,
     selectedSubject: PropTypes.string.isRequired,

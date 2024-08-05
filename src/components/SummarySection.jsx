@@ -10,8 +10,8 @@ const SummarySection = ({ result, showPresent, setShowPresent, showAbsent, setSh
                 {showPresent && result.present.length > 0 && (
                     <div>
                         <ol className="list-decimal pl-5 text-gray-800">
-                            {result.present.map((name) => (
-                                <li key={name} className="mb-1">{name}</li>
+                            {result.present.map((student) => (
+                                <li key={student.index} className="mb-1">{student.name}</li>
                             ))}
                         </ol>
                     </div>
@@ -30,8 +30,8 @@ const SummarySection = ({ result, showPresent, setShowPresent, showAbsent, setSh
                 {showAbsent && result.absent.length > 0 && (
                     <div>
                         <ol className="list-decimal pl-5 text-gray-800">
-                            {result.absent.map((name) => (
-                                <li key={name} className="mb-1">{name}</li>
+                            {result.absent.map((student) => (
+                                <li key={student.index} className="mb-1">{student.name}</li>
                             ))}
                         </ol>
                     </div>
@@ -50,8 +50,22 @@ const SummarySection = ({ result, showPresent, setShowPresent, showAbsent, setSh
 // Add prop types validation
 SummarySection.propTypes = {
     result: PropTypes.shape({
-        present: PropTypes.arrayOf(PropTypes.string).isRequired,
-        absent: PropTypes.arrayOf(PropTypes.string).isRequired,
+        present: PropTypes.arrayOf(
+            PropTypes.shape({
+                name: PropTypes.string.isRequired,
+                index: PropTypes.number.isRequired,
+                rollNo: PropTypes.string.isRequired,
+                attendanceStatus: PropTypes.string.isRequired,
+            })
+        ).isRequired,
+        absent: PropTypes.arrayOf(
+            PropTypes.shape({
+                name: PropTypes.string.isRequired,
+                index: PropTypes.number.isRequired,
+                rollNo: PropTypes.string.isRequired,
+                attendanceStatus: PropTypes.string.isRequired,
+            })
+        ).isRequired,
     }).isRequired,
     showPresent: PropTypes.bool.isRequired,
     setShowPresent: PropTypes.func.isRequired,
