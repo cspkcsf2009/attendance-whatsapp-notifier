@@ -29,7 +29,7 @@ const DocxButton = ({ result, selectedClass, selectedSubject }) => {
 
             const blob = await generateDocx(allStudents, selectedClass, selectedSubject, date, counts);
             // console.log("All Students", allStudents)
-            const fileName = `${selectedSubject}_${date}.docx`;
+            const fileName = `${selectedSubject} [${date}].docx`;
             saveAs(blob, fileName);
         } catch (err) {
             setError('Failed to generate document. Please try again.');

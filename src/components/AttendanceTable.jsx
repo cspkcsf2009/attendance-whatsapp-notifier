@@ -15,9 +15,9 @@ const AttendanceTable = ({ initialNames, attendance, handleStatusChange }) => {
                         <input
                             type="radio"
                             name={name}
-                            value="present"
-                            checked={status === 'present'}
-                            onChange={() => handleStatusChange(name, 'present')}
+                            value="Present"
+                            checked={status === 'Present'}
+                            onChange={() => handleStatusChange(name, 'Present')}
                             className="form-radio text-blue-500 ring-blue-400 focus:ring-2"
                         />
                         <span className="text-gray-700 font-medium">Present</span>
@@ -26,9 +26,9 @@ const AttendanceTable = ({ initialNames, attendance, handleStatusChange }) => {
                         <input
                             type="radio"
                             name={name}
-                            value="absent"
-                            checked={status === 'absent'}
-                            onChange={() => handleStatusChange(name, 'absent')}
+                            value="Absent"
+                            checked={status === 'Absent'}
+                            onChange={() => handleStatusChange(name, 'Absent')}
                             className="form-radio text-red-500 ring-red-400 focus:ring-2"
                         />
                         <span className="text-gray-700 font-medium">Absent</span>

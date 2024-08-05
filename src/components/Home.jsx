@@ -10,7 +10,9 @@ const initialNames = [
     "Abinesh N", "Akash V", "Ashwin Gandhi A", "Booja R", "Hari Krishna B", "Jaya Prasanna E", "Jaya Ram S.N", "Jobin M.S", "Kanishka P.S", "Kathirvel M", "Krishna Kumar S", "Maha Nithra R", "Nagalingam I", "Naveen Raj S.U", "Nisha S", "Pavin P.T", "Pavithra M.V", "Pratheeban S", "Sakthi Abirame M", "Sakthi Pon Rani R", "Sakthi Suthan V", "Samuvel A", "Saran S", "Segi S", "Senegadharshini K", "Sree Devi M", "Sri Varun S", "Sujith Lalaso Patil", "Vengatesh S", "Yowan M"
 ];
 
-const subjects = ['Entire Day', 'Tamil', 'English', 'PROGRAMMING in C++', 'Practical - PROGRAMMING in C++', 'Introduction to Data Science', 'Practical - PHP PROGRAMMING', 'Environmental Studies', '30 Days FSD B18 Novitech - 31.07.2024'];
+const subjects = ['Entire Day', 'Tamil', 'English', 'PROGRAMMING in C++', 'Practical - PROGRAMMING in C++', 'Introduction to Data Science', 'Practical - PHP PROGRAMMING', 'Environmental Studies', 'FSD B18 Novitech'];
+
+// 30 Days FSD B18 Novitech - 31.07.2024
 
 const classes = ['2nd B.Sc. Computer Science', '3rd B.Sc. Computer Science', '1st B.Sc. Computer Science'];
 
@@ -25,7 +27,7 @@ const Home = () => {
     const [selectedClass, setSelectedClass] = useState(classes[0]);
     const [selectedSubject, setSelectedSubject] = useState(subjects[0]);
     const [attendance, setAttendance] = useState(
-        initialNames.reduce((acc, name) => ({ ...acc, [name]: 'present' }), {})
+        initialNames.reduce((acc, name) => ({ ...acc, [name]: 'Present' }), {})
     );
     const [isSubmitClicked, setIsSubmitClicked] = useState(false);
     const [result, setResult] = useState({ present: [], absent: [] });
@@ -51,11 +53,11 @@ const Home = () => {
 
         // Create arrays for present and absent with the correct index and rollNo
         const presentWithIndex = originalOrder
-            .filter(name => attendance[name] === 'present')
-            .map(name => ({ name, index: indexMap[name], rollNo: indexMap[name].toString(), attendanceStatus: 'present' }));
+            .filter(name => attendance[name] === 'Present')
+            .map(name => ({ name, index: indexMap[name], rollNo: indexMap[name].toString(), attendanceStatus: 'Present' }));
         const absentWithIndex = originalOrder
-            .filter(name => attendance[name] === 'absent')
-            .map(name => ({ name, index: indexMap[name], rollNo: indexMap[name].toString(), attendanceStatus: 'absent' }));
+            .filter(name => attendance[name] === 'Absent')
+            .map(name => ({ name, index: indexMap[name], rollNo: indexMap[name].toString(), attendanceStatus: 'Absent' }));
 
         // Combine present and absent arrays
         const combinedWithIndex = [...presentWithIndex, ...absentWithIndex];
@@ -65,8 +67,8 @@ const Home = () => {
 
         // Set result with sorted names and handle empty arrays
         setResult({
-            present: sorted.filter(item => attendance[item.name] === 'present') || [],
-            absent: sorted.filter(item => attendance[item.name] === 'absent') || [],
+            present: sorted.filter(item => attendance[item.name] === 'Present') || [],
+            absent: sorted.filter(item => attendance[item.name] === 'Absent') || [],
         });
         setIsSubmitClicked(true);
 
@@ -112,7 +114,7 @@ const Home = () => {
         setAttendance((prevAttendance) => {
             const newAttendance = { ...prevAttendance };
             initialNames.forEach(name => {
-                newAttendance[name] = 'present';
+                newAttendance[name] = 'Present';
             });
             return newAttendance;
         });
@@ -122,7 +124,7 @@ const Home = () => {
         setAttendance((prevAttendance) => {
             const newAttendance = { ...prevAttendance };
             initialNames.forEach(name => {
-                newAttendance[name] = 'absent';
+                newAttendance[name] = 'Absent';
             });
             return newAttendance;
         });
