@@ -80,7 +80,7 @@ const Home = () => {
             // console.log('Result:', result);
 
             // Construct the message with enhanced formatting
-            const message = `---  *Attendance Report*  ---\n\n` +
+            const message = `*--- Attendance Report ---*\n\n` +
                 `*Date and Time:* ${getFormattedDateTime()}\n\n` +
                 `*Class:* ${selectedClass}\n\n` +
                 `*Hours:* ${selectedSubject}\n\n` +
@@ -88,7 +88,7 @@ const Home = () => {
                 `- Total Present: ${present.length}\n` +
                 `- Total Absent: ${absent.length}\n\n` +
                 `*--- Absentees List (${absent.length}) ---*\n` +
-                `${absent.length > 0 ? absent.map((item, index) => `${index + 1}. ${item.name} (Index: ${item.index})`).join('\n') : 'No students absent.'}`;
+                `${absent.length > 0 ? absent.map((item, index) => `${index + 1}. ${item.name} (Roll No: ${item.index})`).join('\n') : 'No students absent.'}`;
 
             // Encode the message for URL
             const encodedMessage = encodeURIComponent(message);

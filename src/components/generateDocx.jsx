@@ -61,7 +61,7 @@ export const generateDocx = async (allStudents, selectedClass, selectedSubject, 
         `Class: ${selectedClass}`,
         `Subject: ${selectedSubject}`,
         `Date: ${date}`,
-        `Present Count: ${presentCount} Absent Count: ${absentCount}`,
+        `Present Count: ${presentCount}   Absent Count: ${absentCount}`,
     ];
 
     // Add the main title for the document
