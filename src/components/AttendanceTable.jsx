@@ -61,9 +61,9 @@ const AttendanceTable = ({ initialNames, attendance, handleStatusChange }) => {
         <table className="w-full divide-y divide-gray-300 mb-6 bg-white shadow-sm rounded-lg">
             <thead className="bg-gray-200 text-gray-700">
                 <tr>
-                    <th className="px-2 py-1 sm:px-4 sm:py-2 text-center text-sm sm:text-lg font-medium">No.</th>
-                    <th className="px-2 py-1 sm:px-4 sm:py-2 text-center text-sm sm:text-lg font-medium">Name</th>
-                    <th className="px-2 py-1 sm:px-4 sm:py-2 text-center text-sm sm:text-lg font-medium">Attendance</th>
+                    <th className="px-2 py-1 sm:px-4 sm:py-2 text-center text-base sm:text-lg font-medium">No.</th>
+                    <th className="px-2 py-1 sm:px-4 sm:py-2 text-center text-base sm:text-lg font-medium">Name</th>
+                    <th className="px-2 py-1 sm:px-4 sm:py-2 text-center text-base sm:text-lg font-medium">Attendance</th>
                 </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
