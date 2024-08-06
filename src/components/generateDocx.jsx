@@ -23,7 +23,7 @@ const createTable = (data, header) => {
             }),
             // Data Rows
             ...data.map(row => {
-                const isAbsent = row[2] === 'absent'; // Check if the status is 'Absent'
+                const isAbsent = row[2] === 'Absent'; // Check if the status is 'Absent'
 
                 return new TableRow({
                     children: row.map(cell => new TableCell({

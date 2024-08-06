@@ -26,6 +26,7 @@ const getFormattedDateTime = () => {
 const Home = () => {
     const [selectedClass, setSelectedClass] = useState(classes[0]);
     const [selectedSubject, setSelectedSubject] = useState(subjects[0]);
+    const [isManualSubject, setIsManualSubject] = useState(false); // Track if subject is entered manually
     const [attendance, setAttendance] = useState(
         initialNames.reduce((acc, name) => ({ ...acc, [name]: 'Present' }), {})
     );
@@ -79,36 +80,35 @@ const Home = () => {
     const handleSendWhatsApp = useCallback(() => {
         try {
             const { present, absent } = result;
-            // console.log('Result:', result);
+            let message = '';
 
-            // Construct the message with enhanced formatting
-            const message = `*--- Attendance Report ---*\n\n` +
-                `*Date and Time:* ${getFormattedDateTime()}\n\n` +
-                `*Class:* ${selectedClass}\n\n` +
-                `*Hours:* ${selectedSubject}\n\n` +
-                `*Summary:*\n` +
-                `- Total Present: ${present.length}\n` +
-                `- Total Absent: ${absent.length}\n\n` +
-                `*--- Absentees List (${absent.length}) ---*\n` +
-                `${absent.length > 0 ? absent.map((item, index) => `${index + 1}. ${item.name} (Roll No: ${item.index})`).join('\n') : 'No students absent.'}`;
+            if (isManualSubject) {
+                message = `*--- ${selectedSubject} Report ---*\n\n` +
+                    `*Date and Time:* ${getFormattedDateTime()}\n\n` +
+                    `*Class:* ${selectedClass}\n\n` +
+                    `*${selectedSubject} List (${absent.length})*:\n` +
+                    `${absent.length > 0 ? absent.map((item, index) => `${index + 1}. ${item.name}`).join('\n') : 'No students absent.'}`;
+            } else {
+                message = `*--- Attendance Report ---*\n\n` +
+                    `*Date and Time:* ${getFormattedDateTime()}\n\n` +
+                    `*Class:* ${selectedClass}\n\n` +
+                    `*Hours:* ${selectedSubject}\n\n` +
+                    `*Summary:*\n` +
+                    `- Total Present: ${present.length}\n` +
+                    `- Total Absent: ${absent.length}\n\n` +
+                    `*--- Absentees List (${absent.length}) ---*\n` +
+                    `${absent.length > 0 ? absent.map((item, index) => `${index + 1}. ${item.name}`).join('\n') : 'No students absent.'}`;
+            }
 
-            // Encode the message for URL
             const encodedMessage = encodeURIComponent(message);
-
-            // Construct the WhatsApp URL
             const whatsappURL = `https://wa.me/?text=${encodedMessage}`;
-
-            // Open the URL in a new tab
             window.open(whatsappURL, '_blank');
-
-            // Optionally provide user feedback
             console.log('Attendance report sent to WhatsApp.');
         } catch (error) {
-            // Handle errors and provide user feedback
             console.error('Failed to send attendance report:', error);
             alert('Failed to send the attendance report. Please try again.');
         }
-    }, [result, selectedClass, selectedSubject]);
+    }, [result, selectedClass, selectedSubject, isManualSubject]);
 
     const handleMarkAllPresent = () => {
         setAttendance((prevAttendance) => {
@@ -144,7 +144,10 @@ const Home = () => {
                         setSelectedClass={setSelectedClass}
                         classes={classes}
                         selectedSubject={selectedSubject}
-                        setSelectedSubject={setSelectedSubject}
+                        setSelectedSubject={(subject) => {
+                            setSelectedSubject(subject);
+                            setIsManualSubject(!subjects.includes(subject));
+                        }}
                         subjects={subjects}
                     />
                     <MarkAllButtons
