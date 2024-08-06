@@ -27,7 +27,7 @@ const ClassAndSubjectSelector = ({
         if (!subjects.includes(selectedSubject)) {
             setSelectedSubject(manualSubject);
         }
-    }, [manualSubject, selectedSubject, subjects]);
+    }, [manualSubject, selectedSubject, setSelectedSubject, subjects]);
 
     return (
         <div className="flex flex-col sm:flex-row justify-between gap-4 mb-4 w-full p-6 rounded-lg border-2">
