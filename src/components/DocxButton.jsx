@@ -4,9 +4,11 @@ import { generateDocx } from './GenerateDocx'; // Ensure this path is correct
 import { saveAs } from 'file-saver';
 
 const DocxButton = ({ result, selectedClass, selectedSubject }) => {
+    // State for loading status and error handling
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    // Helper function to format dates
     const formatDate = (dateString) => {
         const dateOptions = { year: 'numeric', month: 'numeric', day: 'numeric' };
         const date = new Date(dateString);
@@ -16,6 +18,7 @@ const DocxButton = ({ result, selectedClass, selectedSubject }) => {
     // Set a default date, e.g., current date
     const date = formatDate(new Date().toISOString());
 
+    // Handle the download action
     const handleDownload = async () => {
         setLoading(true);
         setError(null);
@@ -27,9 +30,10 @@ const DocxButton = ({ result, selectedClass, selectedSubject }) => {
 
             const allStudents = [...result.present, ...result.absent];
 
+            // Generate the document
             const blob = await generateDocx(allStudents, selectedClass, selectedSubject, date, counts);
-            // console.log("All Students", allStudents)
             const fileName = `${selectedSubject} [${date}].docx`;
+            // Save the document using file-saver
             saveAs(blob, fileName);
         } catch (err) {
             setError('Failed to generate document. Please try again.');
