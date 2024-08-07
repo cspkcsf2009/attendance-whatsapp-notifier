@@ -1,9 +1,50 @@
+// WhatsAppButton.js
 import PropTypes from 'prop-types';
 import WhatsAppIcon from '../assets/Digital_Glyph_Green.svg';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
-const WhatsAppButton = ({ isSubmitClicked, handleSendWhatsApp }) => {
+const WhatsAppButton = ({ isSubmitClicked, result, selectedClass, selectedSubject, isManualSubject }) => {
     const [showTooltip, setShowTooltip] = useState(false);
+
+    const getFormattedDateTime = () => {
+        const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+        const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+        const date = new Date();
+        return `${date.toLocaleDateString(undefined, dateOptions)} at ${date.toLocaleTimeString(undefined, timeOptions)}`;
+    };
+
+    const handleSendWhatsApp = useCallback(() => {
+        try {
+            const { present, absent } = result;
+            let message = '';
+
+            if (isManualSubject) {
+                message = `*--- ${selectedSubject} Report ---*\n\n` +
+                    `*Date and Time:* ${getFormattedDateTime()}\n\n` +
+                    `*Class:* ${selectedClass}\n\n` +
+                    `*${selectedSubject} List (${absent.length})*:\n` +
+                    `${absent.length > 0 ? absent.map((item, index) => `${index + 1}. ${item.name}`).join('\n') : 'No students absent.'}`;
+            } else {
+                message = `*--- Attendance Report ---*\n\n` +
+                    `*Date and Time:* ${getFormattedDateTime()}\n\n` +
+                    `*Class:* ${selectedClass}\n\n` +
+                    `*Hours:* ${selectedSubject}\n\n` +
+                    `*Summary:*\n` +
+                    `- Total Present: ${present.length}\n` +
+                    `- Total Absent: ${absent.length}\n\n` +
+                    `*--- Absentees List (${absent.length}) ---*\n` +
+                    `${absent.length > 0 ? absent.map((item, index) => `${index + 1}. ${item.name}`).join('\n') : 'No students absent.'}`;
+            }
+
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappURL = `https://wa.me/?text=${encodedMessage}`;
+            window.open(whatsappURL, '_blank');
+            console.log('Attendance report sent to WhatsApp.');
+        } catch (error) {
+            console.error('Failed to send attendance report:', error);
+            alert('Failed to send the attendance report. Please try again.');
+        }
+    }, [result, selectedClass, selectedSubject, isManualSubject]);
 
     const handleClick = () => {
         if (isSubmitClicked) {
@@ -39,10 +80,12 @@ const WhatsAppButton = ({ isSubmitClicked, handleSendWhatsApp }) => {
     );
 };
 
-// Add prop types validation
 WhatsAppButton.propTypes = {
     isSubmitClicked: PropTypes.bool.isRequired,
-    handleSendWhatsApp: PropTypes.func.isRequired,
+    result: PropTypes.object.isRequired,
+    selectedClass: PropTypes.string.isRequired,
+    selectedSubject: PropTypes.string.isRequired,
+    isManualSubject: PropTypes.bool.isRequired,
 };
 
 export default WhatsAppButton;

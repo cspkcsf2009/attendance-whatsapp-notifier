@@ -16,13 +16,6 @@ const subjects = ['Entire Day', 'Tamil', 'English', 'PROGRAMMING in C++', 'Pract
 
 const classes = ['2nd B.Sc. Computer Science', '3rd B.Sc. Computer Science', '1st B.Sc. Computer Science'];
 
-const getFormattedDateTime = () => {
-    const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-    const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
-    const date = new Date();
-    return `${date.toLocaleDateString(undefined, dateOptions)} at ${date.toLocaleTimeString(undefined, timeOptions)}`;
-};
-
 const Home = () => {
     const [selectedClass, setSelectedClass] = useState(classes[0]);
     const [selectedSubject, setSelectedSubject] = useState(subjects[0]);
@@ -76,39 +69,6 @@ const Home = () => {
         // Log the final combined and sorted array
         // console.log('Sorted Combined Names with Index:', sorted);
     }, [attendance]);
-
-    const handleSendWhatsApp = useCallback(() => {
-        try {
-            const { present, absent } = result;
-            let message = '';
-
-            if (isManualSubject) {
-                message = `*--- ${selectedSubject} Report ---*\n\n` +
-                    `*Date and Time:* ${getFormattedDateTime()}\n\n` +
-                    `*Class:* ${selectedClass}\n\n` +
-                    `*${selectedSubject} List (${absent.length})*:\n` +
-                    `${absent.length > 0 ? absent.map((item, index) => `${index + 1}. ${item.name}`).join('\n') : 'No students absent.'}`;
-            } else {
-                message = `*--- Attendance Report ---*\n\n` +
-                    `*Date and Time:* ${getFormattedDateTime()}\n\n` +
-                    `*Class:* ${selectedClass}\n\n` +
-                    `*Hours:* ${selectedSubject}\n\n` +
-                    `*Summary:*\n` +
-                    `- Total Present: ${present.length}\n` +
-                    `- Total Absent: ${absent.length}\n\n` +
-                    `*--- Absentees List (${absent.length}) ---*\n` +
-                    `${absent.length > 0 ? absent.map((item, index) => `${index + 1}. ${item.name}`).join('\n') : 'No students absent.'}`;
-            }
-
-            const encodedMessage = encodeURIComponent(message);
-            const whatsappURL = `https://wa.me/?text=${encodedMessage}`;
-            window.open(whatsappURL, '_blank');
-            console.log('Attendance report sent to WhatsApp.');
-        } catch (error) {
-            console.error('Failed to send attendance report:', error);
-            alert('Failed to send the attendance report. Please try again.');
-        }
-    }, [result, selectedClass, selectedSubject, isManualSubject]);
 
     const handleMarkAllPresent = () => {
         setAttendance((prevAttendance) => {
@@ -171,7 +131,10 @@ const Home = () => {
                         <div className="flex-1">
                             <WhatsAppButton
                                 isSubmitClicked={isSubmitClicked}
-                                handleSendWhatsApp={handleSendWhatsApp}
+                                result={result}
+                                selectedClass={selectedClass}
+                                selectedSubject={selectedSubject}
+                                isManualSubject={isManualSubject}
                             />
                         </div>
                     </div>
