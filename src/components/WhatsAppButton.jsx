@@ -28,7 +28,7 @@ const WhatsAppButton = ({ isSubmitClicked, result, selectedClass, selectedSubjec
                 message = `*--- Attendance Report ---*\n\n` +
                     `*Date and Time:* ${getFormattedDateTime()}\n\n` +
                     `*Class:* ${selectedClass}\n\n` +
-                    `*Hours:* ${selectedSubject}\n\n` +
+                    `*Title:* ${selectedSubject}\n\n` +
                     `*Summary:*\n` +
                     `- Total Present: ${present.length}\n` +
                     `- Total Absent: ${absent.length}\n\n` +

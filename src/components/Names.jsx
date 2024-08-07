@@ -12,7 +12,7 @@ export const girlsNames = [
 
 export const folks = [
     "Samuvel A", "Sri Varun S", "Vengatesh S", "Booja R", "Jaya Prasanna E", "Kanishka P.S", "Maha Nithra R", "Pavithra M.V",
-    "Sakthi Pon Rani R", "Sree Devi M"
+    "Sakthi Pon Rani R"
 ];
 
 export const allNames = [...boysNames, ...girlsNames];
