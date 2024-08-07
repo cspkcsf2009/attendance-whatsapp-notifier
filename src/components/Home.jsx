@@ -113,20 +113,20 @@ const Home = () => {
             let message = '';
 
             if (isManualSubject) {
-                message = `*--- ${selectedSubject} Report ---*\n\n` +
-                    `*Date and Time:* ${getFormattedDateTime()}\n\n` +
-                    `*Class:* ${selectedClass}\n\n` +
-                    `*${selectedSubject} List (${absent.length})*:\n` +
+                message = `--- ${selectedSubject} Report ---\n\n` +
+                    `Date and Time: ${getFormattedDateTime()}\n\n` +
+                    `Class: ${selectedClass}\n\n` +
+                    `${selectedSubject} List (${absent.length}):\n` +
                     `${absent.length > 0 ? absent.map((item, index) => `${index + 1}. ${item.name}`).join('\n') : 'No students absent.'}`;
             } else {
-                message = `*--- Attendance Report ---*\n\n` +
-                    `*Date and Time:* ${getFormattedDateTime()}\n\n` +
-                    `*Class:* ${selectedClass}\n\n` +
-                    `*Title:* ${selectedSubject}\n\n` +
-                    `*Summary:*\n` +
+                message = `--- Attendance Report ---\n\n` +
+                    `Date and Time: ${getFormattedDateTime()}\n\n` +
+                    `Class: ${selectedClass}\n\n` +
+                    `Title: ${selectedSubject}\n\n` +
+                    `Summary:\n` +
                     `- Total Present: ${present.length}\n` +
                     `- Total Absent: ${absent.length}\n\n` +
-                    `*--- Absentees List (${absent.length}) ---*\n` +
+                    `--- Absentees List (${absent.length}) ---\n` +
                     `${absent.length > 0 ? absent.map((item, index) => `${index + 1}. ${item.name}`).join('\n') : 'No students absent.'}`;
             }
 
