@@ -184,7 +184,7 @@ const Home = () => {
                         </button>
                         <button
                             onClick={handleCopyToClipboard}
-                            className="flex-1 px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-lg transition-transform transform duration-300 ease-in-out hover:bg-green-600 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-green-300 active:bg-green-700 active:shadow-md text-sm uppercase"
+                            className="flex-1 px-4 py-2 bg-yellow-500 text-white font-semibold rounded-lg shadow-lg transition-transform transform duration-300 ease-in-out hover:bg-yellow-600 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-yellow-300 active:bg-yellow-700 active:shadow-md text-sm uppercase"
                             aria-label="Copy to clipboard"
                             aria-live="polite"
                         >

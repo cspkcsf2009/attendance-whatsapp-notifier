@@ -59,7 +59,7 @@ const WhatsAppButton = ({ isSubmitClicked, result, selectedClass, selectedSubjec
         <div className="relative w-full group">
             <button
                 onClick={handleClick}
-                className={`w-full px-5 py-3 font-semibold rounded-lg shadow-lg transition-transform transform duration-300 ease-in-out ${isSubmitClicked ? 'bg-green-700 text-white hover:bg-green-600 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-green-300 active:bg-green-800 active:shadow-md' : 'bg-green-400 text-gray-300 cursor-not-allowed'} text-sm uppercase`}
+                className={`w-full px-5 py-3 font-semibold rounded-lg shadow-lg transition-transform transform duration-300 ease-in-out ${isSubmitClicked ? 'bg-green-600 text-white hover:bg-green-700 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-green-300 active:bg-green-700 active:shadow-md' : 'bg-green-400 text-gray-300 cursor-not-allowed'} text-sm uppercase`}
                 disabled={!isSubmitClicked}
                 aria-label="Send to WhatsApp"
                 aria-live="polite"
