@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { generateDocx } from './generateDocx'; // Ensure this path is correct
+import { generateDocx } from './GenerateDocx'; // Ensure this path is correct
 import { saveAs } from 'file-saver';
 
 const DocxButton = ({ result, selectedClass, selectedSubject }) => {

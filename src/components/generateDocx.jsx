@@ -59,7 +59,7 @@ export const generateDocx = async (allStudents, selectedClass, selectedSubject, 
     // Create header paragraphs with date, class, subject, and counts
     const header = [
         `Class: ${selectedClass}`,
-        `Subject: ${selectedSubject}`,
+        `Title: ${selectedSubject}`,
         `Date: ${date}`,
         `Present Count: ${presentCount}   Absent Count: ${absentCount}`,
     ];
@@ -77,7 +77,7 @@ export const generateDocx = async (allStudents, selectedClass, selectedSubject, 
 
     // Add header information paragraphs
     docSections.push(...header.map(text => new Paragraph({
-        children: [new TextRun({ text, size: 24 })], // Increased font size for header information
+        children: [new TextRun({ text, size: 28 })], // Increased font size for header information
         alignment: 'center', // Center align header information
         spacing: { after: 200 }, // Add space after each header
     })));
