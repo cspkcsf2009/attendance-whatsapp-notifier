@@ -30,7 +30,7 @@ const ClassAndSubjectSelector = ({
     }, [manualSubject, selectedSubject, setSelectedSubject, subjects]);
 
     return (
-        <div className="flex flex-col sm:flex-row justify-between gap-4 mb-4 w-full p-6 rounded-lg border-2">
+        <div className="flex flex-col sm:flex-row justify-between gap-4 mb-4 w-full p-6 rounded-lg border-2 text-center">
             <div className="flex flex-col sm:flex-row gap-4 w-full">
                 <div className="flex-1">
                     <div className="flex flex-col sm:flex-row sm:justify-center sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 w-full bg-white rounded-lg">

@@ -1,51 +1,54 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import ClassAndSubjectSelector from './ClassAndSubjectSelector';
-import AttendanceTable from './AttendanceTable'; // Import the modified AttendanceTable component
+import AttendanceTable from './AttendanceTable';
 import SummarySection from './SummarySection';
 import WhatsAppButton from './WhatsAppButton';
 import DocxButton from './DocxButton';
-import MarkAllButtons from './MarkAllButtons'; // Import the new component
-
-const initialNames = [
-    "Abinesh N", "Akash V", "Ashwin Gandhi A", "Booja R", "Hari Krishna B", "Jaya Prasanna E", "Jaya Ram S.N", "Jobin M.S", "Kanishka P.S", "Kathirvel M", "Krishna Kumar S", "Maha Nithra R", "Nagalingam I", "Naveen Raj S.U", "Nisha S", "Pavin P.T", "Pavithra M.V", "Pratheeban S", "Sakthi Abirame M", "Sakthi Pon Rani R", "Sakthi Suthan V", "Samuvel A", "Saran S", "Segi S", "Senegadharshini K", "Sree Devi M", "Sri Varun S", "Sujith Lalaso Patil", "Vengatesh S", "Yowan M"
-];
+import MarkAllButtons from './MarkAllButtons';
+import { allNames, boysNames, girlsNames, folks } from './Names';
 
 const subjects = ['Entire Day', 'Tamil', 'English', 'PROGRAMMING in C++', 'Practical - PROGRAMMING in C++', 'Introduction to Data Science', 'Practical - PHP PROGRAMMING', 'Environmental Studies', 'FSD B18 Novitech'];
-
-// 30 Days FSD B18 Novitech - 31.07.2024
-
 const classes = ['2nd B.Sc. Computer Science', '3rd B.Sc. Computer Science', '1st B.Sc. Computer Science'];
 
 const Home = () => {
+    const [selectedGroup, setSelectedGroup] = useState('All');
     const [selectedClass, setSelectedClass] = useState(classes[0]);
     const [selectedSubject, setSelectedSubject] = useState(subjects[0]);
-    const [isManualSubject, setIsManualSubject] = useState(false); // Track if subject is entered manually
-    const [attendance, setAttendance] = useState(
-        initialNames.reduce((acc, name) => ({ ...acc, [name]: 'Present' }), {})
-    );
+    const [isManualSubject, setIsManualSubject] = useState(false);
+    const [attendance, setAttendance] = useState({});
     const [isSubmitClicked, setIsSubmitClicked] = useState(false);
     const [result, setResult] = useState({ present: [], absent: [] });
     const [showPresent, setShowPresent] = useState(false);
     const [showAbsent, setShowAbsent] = useState(false);
 
+    const getSelectedNames = useCallback(() => {
+        if (selectedGroup === 'Boys') return boysNames;
+        if (selectedGroup === 'Girls') return girlsNames;
+        if (selectedGroup === 'Folks') return folks;
+        return allNames;
+    }, [selectedGroup]);
+
+    useEffect(() => {
+        const names = getSelectedNames();
+        setAttendance(names.reduce((acc, name) => ({ ...acc, [name]: 'Present' }), {}));
+    }, [getSelectedNames]); // Only dependency is getSelectedNames
+
     const handleStatusChange = useCallback((name, status) => {
-        setAttendance((prevAttendance) => ({
+        setAttendance(prevAttendance => ({
             ...prevAttendance,
             [name]: status
         }));
     }, []);
 
     const handleSubmit = useCallback(() => {
-        // Capture the original order of names based on the keys in the attendance object
-        const originalOrder = Object.keys(attendance);
+        const names = getSelectedNames();
+        const originalOrder = names;
 
-        // Create a map to store the index of each name in the originalOrder array
         const indexMap = originalOrder.reduce((map, name, index) => {
-            map[name] = index + 1; // Adding 1 to make indices start from 1
+            map[name] = index + 1;
             return map;
         }, {});
 
-        // Create arrays for present and absent with the correct index and rollNo
         const presentWithIndex = originalOrder
             .filter(name => attendance[name] === 'Present')
             .map(name => ({ name, index: indexMap[name], rollNo: indexMap[name].toString(), attendanceStatus: 'Present' }));
@@ -53,27 +56,22 @@ const Home = () => {
             .filter(name => attendance[name] === 'Absent')
             .map(name => ({ name, index: indexMap[name], rollNo: indexMap[name].toString(), attendanceStatus: 'Absent' }));
 
-        // Combine present and absent arrays
         const combinedWithIndex = [...presentWithIndex, ...absentWithIndex];
 
-        // Sort combined array by index
         const sorted = combinedWithIndex.sort((a, b) => a.index - b.index);
 
-        // Set result with sorted names and handle empty arrays
         setResult({
             present: sorted.filter(item => attendance[item.name] === 'Present') || [],
             absent: sorted.filter(item => attendance[item.name] === 'Absent') || [],
         });
         setIsSubmitClicked(true);
-
-        // Log the final combined and sorted array
-        // console.log('Sorted Combined Names with Index:', sorted);
-    }, [attendance]);
+    }, [attendance, getSelectedNames]); // Added getSelectedNames to dependencies
 
     const handleMarkAllPresent = () => {
-        setAttendance((prevAttendance) => {
+        setAttendance(prevAttendance => {
+            const names = getSelectedNames();
             const newAttendance = { ...prevAttendance };
-            initialNames.forEach(name => {
+            names.forEach(name => {
                 newAttendance[name] = 'Present';
             });
             return newAttendance;
@@ -81,9 +79,10 @@ const Home = () => {
     };
 
     const handleMarkAllAbsent = () => {
-        setAttendance((prevAttendance) => {
+        setAttendance(prevAttendance => {
+            const names = getSelectedNames();
             const newAttendance = { ...prevAttendance };
-            initialNames.forEach(name => {
+            names.forEach(name => {
                 newAttendance[name] = 'Absent';
             });
             return newAttendance;
@@ -111,11 +110,13 @@ const Home = () => {
                         subjects={subjects}
                     />
                     <MarkAllButtons
+                        selectedGroup={selectedGroup}
+                        setSelectedGroup={setSelectedGroup}
                         handleMarkAllPresent={handleMarkAllPresent}
                         handleMarkAllAbsent={handleMarkAllAbsent}
                     />
                     <AttendanceTable
-                        initialNames={initialNames}
+                        allNames={getSelectedNames()}
                         attendance={attendance}
                         handleStatusChange={handleStatusChange}
                     />
@@ -144,7 +145,7 @@ const Home = () => {
                         selectedSubject={selectedSubject}
                     />
                 </main>
-                <footer className=" text-center px-4 pb-6">
+                <footer className="text-center px-4 pb-6">
                     <SummarySection
                         result={result}
                         showPresent={showPresent}

@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-const AttendanceTable = ({ initialNames, attendance, handleStatusChange }) => {
-    // Define the AttendanceRow component inside AttendanceTable
+const AttendanceTable = ({ allNames, attendance, handleStatusChange }) => {
+    // AttendanceRow function within AttendanceTable
     const AttendanceRow = ({ index, name, status }) => (
         <tr
             className={`transition-colors duration-300 ease-in-out hover:bg-gray-100 ${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}
@@ -38,6 +38,7 @@ const AttendanceTable = ({ initialNames, attendance, handleStatusChange }) => {
         </tr>
     );
 
+    // Prop types for AttendanceRow
     AttendanceRow.propTypes = {
         index: PropTypes.number.isRequired,
         name: PropTypes.string.isRequired,
@@ -45,17 +46,18 @@ const AttendanceTable = ({ initialNames, attendance, handleStatusChange }) => {
         handleStatusChange: PropTypes.func.isRequired,
     };
 
+    // Memoize AttendanceRow rendering
     const memoizedAttendanceRows = useMemo(() => (
-        initialNames.map((name, index) => (
+        allNames.map((name, index) => (
             <AttendanceRow
                 key={name}
                 index={index}
                 name={name}
-                status={attendance[name]}
+                status={attendance[name] || 'Absent'} // Default to 'Absent' if status is undefined
                 handleStatusChange={handleStatusChange}
             />
         ))
-    ), [initialNames, attendance, handleStatusChange]);
+    ), [allNames, attendance, handleStatusChange]);
 
     return (
         <table className="w-full divide-y divide-gray-300 mb-6 bg-white shadow-sm rounded-lg">
@@ -74,7 +76,7 @@ const AttendanceTable = ({ initialNames, attendance, handleStatusChange }) => {
 };
 
 AttendanceTable.propTypes = {
-    initialNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+    allNames: PropTypes.arrayOf(PropTypes.string).isRequired,
     attendance: PropTypes.objectOf(PropTypes.string).isRequired,
     handleStatusChange: PropTypes.func.isRequired,
 };
