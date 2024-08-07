@@ -11,7 +11,7 @@ export const girlsNames = [
 ];
 
 export const folks = [
-    "Akash V", "Samuvel A", "Sri Varun S", "Vengatesh S", "Booja R", "Jaya Prasanna E", "Kanishka P.S", "Maha Nithra R", "Pavithra M.V",
+    "Samuvel A", "Sri Varun S", "Vengatesh S", "Booja R", "Jaya Prasanna E", "Kanishka P.S", "Maha Nithra R", "Pavithra M.V",
     "Sakthi Pon Rani R", "Sree Devi M"
 ];
 
